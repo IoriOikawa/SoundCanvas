@@ -1,55 +1,62 @@
-//global for the controls and input 
-var controls = null;
-//store visualisations in a container
-var vis = null;
-//variable for the p5 sound object
-var sound = null;
-//variable for p5 fast fourier transform
-var fourier;
+// Global for the controls and input.
+let controls = null;
+// Store visualisations in a container.
+let vis = null;
+// Variable for the p5 sound object.
+let sound = null;
+// Variable for p5 fast fourier transform.
+let fourier, smallfourier;
+// An instance of the Groove visualization.
+// This is necessary as a workaround for letting it know the waveform when displaying another vis.
+let groove;
 
-function preload(){
-	sound = loadSound('assets/Shiawase.m4a');
+function preload() {
+    sound = loadSound('assets/Ring_On_Your_Way.flac');
 }
 
-function setup(){
-	 createCanvas(windowWidth, windowHeight, WEBGL);
-	 background(0);
-	 controls = new ControlsAndInput();
+function setup() {
+    createCanvas(windowWidth, windowHeight, WEBGL);
+    background(0);
+    controls = new ControlsAndInput();
 
-	 //instantiate the fft object
-	 fourier = new p5.FFT();
+    // Instantiate the fft object.
+    fourier = new p5.FFT(0.8, 1024);
+    smallfourier = new p5.FFT(0.5, 256);
 
-	 //create a new visualisation container and add visualisations
-	 vis = new Visualisations();
-	 vis.add(new Spectrum());
-	 vis.add(new WavePattern());
-	 vis.add(new Needles());
-     vis.add(new DancingEarth());
-     vis.add(new Groove());
-
+    // Create a new visualisation container and add visualisations.
+    vis = new Visualisations();
+    vis.add(new Spectrum());
+    vis.add(new WavePattern());
+    vis.add(new Needles());
+    vis.add(new DancingEarth());
+    vis.add(groove = new Groove());
+    vis.add(new TorusKnot());
 }
 
-function draw(){
-	background(0);
-	//draw the selected visualisation
-	vis.selectedVisual.draw(sound.isPlaying());
-	//draw the controls on top.
-	controls.draw();
+function draw() {
+    background(0);
+    // Update groove because it relies on constantly feed data.
+    groove.update(sound.isPlaying(), sound.currentTime(), sound.duration());
+    // Draw the selected visualisation.
+    vis.selectedVisual.draw();
+    // Draw the controls on top.
+    controls.draw();
 }
 
-function mouseClicked(){
-	controls.mousePressed();
+function mouseClicked() {
+    controls.mousePressed();
 }
 
-function keyPressed(){
-	controls.keyPressed(keyCode);
+function keyPressed() {
+    controls.keyPressed(keyCode);
 }
 
-//when the window has been resized. Resize canvas to fit 
-//if the visualisation needs to be resized call its onResize method
-function windowResized(){
-	resizeCanvas(windowWidth, windowHeight);
-	if(vis.selectedVisual.hasOwnProperty('onResize')){
-		vis.selectedVisual.onResize();
-	}
+// When the window has been resized, Resize canvas to fit.
+// If the visualisation needs to be resized call its onResize method.
+function windowResized() {
+    resizeCanvas(windowWidth, windowHeight);
+    controls.onResize();
+    if (vis.selectedVisual.hasOwnProperty('onResize')) {
+        vis.selectedVisual.onResize();
+    }
 }

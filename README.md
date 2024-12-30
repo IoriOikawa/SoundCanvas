@@ -2,6 +2,8 @@
 
 Welcome to the **Music Visualization App**! This app takes audio inputs and generates dynamic, interactive visualizations. Below, we’ll showcase the design drafts and the final implementation. Visit the live demo [here](https://example.com/).
 
+***Press keyboard 1-6 to switch among different visualizations!***
+
 ---
 
 ## 🎨 Design Drafts
@@ -28,6 +30,10 @@ A global visualization where the Earth rotates and reflects the frequency ranges
   - Mid frequencies: Asia.
   - Treble (high frequencies): Europe & UK.
 
+### Bonus: Torus Knot
+
+![Torus Knot](figures/design-3.png)
+
 ---
 
 ## 🚀 Final Implementation
@@ -42,6 +48,9 @@ Visit the live demo: [Music Visualization App](https://example.com/).
 ---
 
 ## 💡 How It Works
+
+Everything is proudly based on `p5.sound.js`!
+
 1. **Audio Input:** The app takes in real-time or pre-recorded audio.
 2. **Processing:** Using Fast Fourier Transform (FFT), it extracts audio features (bass, mids, treble).
 3. **Visualization:** Maps audio features to animations:
