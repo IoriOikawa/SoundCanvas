@@ -59,7 +59,6 @@ function ControlsAndInput() {
             }
             text += '> Click mouse to toggle fullscreen. <' + '\n';
             text += '> Press Spacebar to close menu. <' + '\n';
-            text += 'Student: Fengkai Wang, No.190312329, 2021' + '\n';
             this.textrender.text = text;
             this.textrender.draw();
         }
