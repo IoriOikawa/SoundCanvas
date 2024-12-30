@@ -1,6 +1,6 @@
 # SoundCanvas
 
-Welcome to the **SoundCanvas**! This app takes audio inputs and generates dynamic, interactive visualizations. Below, we’ll showcase the design drafts and the final implementation. Visit the live demo [here](https://example.com/).
+Welcome to the **SoundCanvas**! This app takes audio inputs and generates dynamic, interactive visualizations. Below, we’ll showcase the design drafts and the final implementation. Visit the live demo [here](https://paperneko.netlify.app/SoundCanvas).
 
 ***Press keyboard 1-6 to switch among different visualizations!***
 
@@ -43,7 +43,7 @@ Explore the app’s **interactive visualizations** and see how the initial desig
 - Customizable effects based on user inputs (press key 1-6 on keyboard).
 - Seamless integration of global and local visual elements.
 
-Visit the live demo: [SoundCanvas](https://example.com/).
+Visit the live demo: [SoundCanvas](https://paperneko.netlify.app/SoundCanvas).
 
 ---
 
