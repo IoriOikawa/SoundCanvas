@@ -1,22 +1,24 @@
 # SoundCanvas — The listening studio
 
-A browser studio that turns a track into sunlit, rippling water or a responsive, furry Stanford Bunny. Bring local audio, adjust its response, revisit a moment, and export a short film. No accounts, production dependencies, audio uploads, or build step.
+[English](README.md) · [简体中文](README.zh-CN.md) · [日本語](README.ja.md)
 
-## Pool Light
-
-A sunlit white-tile pool hall with reflections, refraction, underwater caustics and a floating rubber duck. Walk along the pool, dive below the surface, or switch the duck off for an uninterrupted view of the water.
-
-![Pool Light concept artwork — sunlight and caustics beneath the pool surface](docs/images/pool-light-concept.png)
-
-*User-provided concept illustration expressing the scene’s atmosphere; the character and illustrated lighting are not a screenshot of the real-time renderer.*
+A browser studio that turns a track into a responsive, furry Stanford Bunny or sunlit, rippling water. Bring local audio, adjust its response, revisit a moment, and export a short film. No accounts, production dependencies, audio uploads, or build step.
 
 ## Stanford Bunny
 
-A music-responsive Stanford Bunny with warm ivory fur or a copper surface. Audio shapes the form and the coat’s motion; the three controls tune its response.
-
 ![Stanford Bunny concept artwork — warm light and an ivory-fur bunny](docs/images/stanford-bunny-concept.png)
 
-*User-provided concept illustration; the character and touch interaction are not implemented in the studio.*
+A music-responsive Stanford Bunny with warm ivory fur or a copper surface. Audio shapes the form and the coat’s motion; the three controls tune its response.
+
+*Concept illustration: the character and touch interaction are not implemented in the studio.*
+
+## Pool Core — Pool Light
+
+![Pool Light concept artwork — sunlight and caustics beneath the pool surface](docs/images/pool-light-concept.png)
+
+A sunlit white-tile pool hall with reflections, refraction, underwater caustics and a floating rubber duck. Walk along the pool, dive below the surface, or switch the duck off for an uninterrupted view of the water. This poolcore-inspired scene is named **Pool Light** in the studio.
+
+*Concept illustration expressing the scene’s atmosphere; the character and illustrated lighting are not a screenshot of the real-time renderer.*
 
 ## Run locally
 
@@ -35,7 +37,7 @@ Tests use Node.js 20+ and its built-in runner. No dependency installation is nec
 ## Make something
 
 1. Press play to load the original demo, or choose/drop your own audio file. Audio stays on your device. Limits: 80 MB and 10 minutes; codecs depend on your browser.
-2. Choose **Pool Light** or **Stanford Bunny** from the scene selector at the top left of the canvas. Adjust **Impact**, **Resonance**, and **Growth**. In Pool Light, these shape the strength, lingering musical response and size of local water ripples; click the scene, hold **W/A/S/D** to move forward/left/back/right, and drag or use arrow keys to look around. Use **Q/E** to dive/rise inside the basin; camera bounds keep you inside the hall and above the pool floor. Reset view returns to the near pool edge. On the bunny, Growth also changes coat length, dragging or arrow keys turn the camera, and the material label switches fur/copper. Space toggles playback when the page or canvas is focused.
+2. Choose **Stanford Bunny** or **Pool Light** from the scene selector at the top left of the canvas. Adjust **Impact**, **Resonance**, and **Growth**. In Pool Light, these shape the strength, lingering musical response and size of local water ripples; click the scene, hold **W/A/S/D** to move forward/left/back/right, and drag or use arrow keys to look around. Use **Q/E** to dive/rise inside the basin; camera bounds keep you inside the hall and above the pool floor. Reset view returns to the near pool edge. On the bunny, Growth also changes coat length, dragging or arrow keys turn the camera, and the material label switches fur/copper. Space toggles playback when the page or canvas is focused.
 3. Pool Light offers an independent **Duck on / Duck off** switch. The duck follows the water height and tilt; switch it off for pure water. Musical ball drops are currently disabled.
 4. Use the waveform to revisit a moment. The same decoded track, time, settings and camera reproduce the same geometric state.
 5. **Save settings** downloads a versioned JSON file. Controls, scene, pool position and both camera views also persist locally when browser storage is available. Settings do not include the audio or playhead; reopen the same audio and revisit the same timestamp to recreate a frame.
@@ -60,7 +62,7 @@ Before audio loads, Pool Light runs a quiet ambient preview; the bunny starts at
 
 These are artistic audio-to-visual mappings, not beat tracking, source separation, semantic song understanding or a unique song fingerprint.
 
-The studio currently offers two scenes: **Pool Light** and **Stanford Bunny**. Mesh provenance and regeneration instructions are in [the model notice](assets/BUNNY-NOTICE.md).
+The studio currently offers two scenes: **Stanford Bunny** and **Pool Light**. Mesh provenance and regeneration instructions are in [the model notice](assets/BUNNY-NOTICE.md).
 
 Audio playback and film audio remain unprocessed. The underwater pool viewpoint is implemented; underwater audio treatment remains future work.
 
