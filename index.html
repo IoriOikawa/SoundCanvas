@@ -1,45 +1,355 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <script src="lib/p5.min.js"></script>
-    <script src="lib/p5.sound.js"></script>
-
-    <script src="textrenderer.js"></script>
-    <script src="camera.js"></script>
-    <script src="filter.js"></script>
-    <script src="arrayfilter.js"></script>
-
-    <script src="sketch.js"></script>
-    <script src="controlsAndInput.js"></script>
-    <script src="playbackButton.js"></script>
-    <script src="visualisations.js"></script>
-
-    <script src="vis/needles.js"></script>
-    <script src="vis/wavepattern.js"></script>
-    <script src="vis/spectrum.js"></script>
-    <script src="vis/dancingearth.js"></script>
-    <script src="vis/groove.js"></script>
-    <script src="vis/torusknot.js"></script>
-
-
-
-    <!--<link rel="stylesheet" type="text/css" href="style.css">-->
-    <style>
-        * {
-            padding: 0;
-            margin: 0;
-            border: 0;
-        }
-        html, body {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-    </style>
-</head>
-
-<body>
-</body>
-
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f3f1e9" />
+    <meta
+      name="description"
+      content="Turn your music into a living sculpture. A local, interactive sound-to-form studio."
+    />
+    <title>SoundCanvas — The listening studio</title>
+    <link rel="icon" href="assets/mark.svg" />
+    <link rel="stylesheet" href="styles.css?v=duck-toggle-1" />
+    <script type="module" src="src/app.js?v=duck-toggle-1"></script>
+  </head>
+  <body>
+    <header class="masthead">
+      <a class="brand" href="./" aria-label="SoundCanvas home"
+        ><img src="assets/mark.svg" width="31" height="31" alt="" /><span
+          >SoundCanvas<span class="brand-period">.</span></span
+        ></a
+      ><span class="masthead-caption">AN EXPLORATION OF SOUND & FORM</span>
+      <nav aria-label="Main navigation">
+        <button class="text-button" id="about-button">How it works ↗</button
+        ><a class="classic-link" href="classic.html">The original six ↗</a>
+      </nav>
+    </header>
+    <main>
+      <section class="intro" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow">
+            <span class="tiny-cross" aria-hidden="true">✳</span> THE LISTENING
+            STUDIO <span class="edition">/ VOL. 01</span>
+          </p>
+          <h1 id="page-title">Give your music <em>a form.</em></h1>
+        </div>
+        <p class="intro-note">
+          A track becomes a place.<br />A little listening becomes a little
+          making.
+        </p>
+      </section>
+      <div class="workbench" id="workbench">
+        <section class="viewer" aria-label="Your sound canvas">
+          <div class="stage" id="stage">
+            <canvas
+              id="sculpture"
+              tabindex="0"
+              role="img"
+              aria-label="Interactive furry Stanford Bunny sculpture. Drag or use arrow keys to rotate."
+            ></canvas>
+            <div class="stage-top">
+              <span class="scene-picker"
+                ><i class="live-dot" aria-hidden="true"></i
+                ><select id="scene-select" aria-label="Visual scene">
+                  <option value="pool">Pool Light</option>
+                  <option value="bunny">Stanford Bunny</option></select
+                ><span class="stage-number" id="scene-number">002</span></span
+              >
+              <button
+                class="material"
+                id="fur-toggle"
+                type="button"
+                aria-label="Fur coat"
+                aria-pressed="true"
+                title="Switch between fur and copper"
+              >
+                <i aria-hidden="true"></i
+                ><span id="material-label">WARM IVORY FUR</span></button
+              ><span class="material" id="pool-material"
+                ><i aria-hidden="true"></i> SUNLIT POOL HALL</span
+              >
+            </div>
+            <div class="stage-caption">
+              <span class="stage-title" id="stage-title"
+                >Every sound leaves a trace.</span
+              ><span class="stage-help" id="stage-help"
+                >Drag to turn · Music shapes the surface</span
+              >
+            </div>
+            <button
+              class="reset-view"
+              id="reset-view"
+              aria-label="Reset sculpture view"
+              title="Reset view"
+            >
+              ↺
+            </button>
+            <div class="drop-overlay" id="drop-overlay" hidden>
+              <span>Make room for your music.</span
+              ><small>Drop an audio file here</small>
+            </div>
+            <div class="loading-overlay" id="loading-overlay" hidden>
+              <span class="loading-orbit" aria-hidden="true"></span
+              ><span id="loading-label">Listening to your track…</span
+              ><small>Everything happens on your device.</small>
+            </div>
+          </div>
+          <div class="pool-event-controls" id="duck-controls" hidden>
+            <button id="duck-toggle" class="drop-mode" type="button" aria-label="Rubber duck" aria-pressed="true">Duck on</button>
+            <span>A little company on the water.</span>
+          </div>
+          <div class="pool-event-controls" id="pool-event-controls" hidden>
+            <button id="pool-drop-toggle" class="drop-mode" type="button" aria-label="Musical drop" aria-pressed="true">Musical drops</button>
+            <span id="pool-drop-time">Play a track to find a moment.</span>
+            <button id="cancel-drop-preview" class="text-button" type="button" hidden>Cancel preparation</button>
+            <button id="preview-drop" class="text-button" type="button" title="Play from before the first drop" disabled>Preview drops ↗</button>
+          </div>
+          <div class="transport">
+            <div class="track-row">
+              <div class="track-info">
+                <span class="record-icon" aria-hidden="true"
+                  ><span></span
+                ></span>
+                <div>
+                  <h2 id="track-name">Ring On Your Way</h2>
+                  <p id="track-source">A TRACK TO GET YOU STARTED</p>
+                </div>
+              </div>
+              <button class="import-button" id="import-audio">
+                <span aria-hidden="true">＋</span> Your own track
+              </button>
+            </div>
+            <div class="playback-row">
+              <button
+                class="play-button"
+                id="play-button"
+                aria-label="Play demo"
+              >
+                <svg id="play-icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M9 5.5 19 12 9 18.5Z" fill="currentColor" />
+                </svg></button
+              ><span class="time" id="current-time">00:00</span>
+              <div class="waveform-wrap">
+                <canvas id="waveform" aria-hidden="true"></canvas
+                ><input
+                  id="seek"
+                  type="range"
+                  min="0"
+                  max="100"
+                  step="0.01"
+                  value="0"
+                  aria-label="Playback position"
+                  aria-valuetext="Load a track to seek"
+                  disabled
+                />
+              </div>
+              <span class="time duration" id="duration">—:—</span>
+            </div>
+          </div>
+        </section>
+        <aside class="controls" aria-label="Sculpture controls">
+          <div class="control-heading">
+            <span class="eyebrow">YOUR SOUND. YOUR SHAPE.</span
+            ><button
+              id="reset-controls"
+              class="text-button small"
+              title="Reset the three controls"
+            >
+              Reset
+            </button>
+          </div>
+          <h2>Make it yours.</h2>
+          <p class="control-intro">
+            Three small changes.<br />A different way to hear.
+          </p>
+          <div class="control">
+            <div class="control-label">
+              <label for="impact">Impact</label
+              ><output id="impact-value" for="impact">55</output>
+            </div>
+            <input
+              id="impact"
+              class="shape-slider"
+              type="range"
+              min="0"
+              max="100"
+              value="55"
+            />
+            <p id="impact-help">Let low notes stir the surface.</p>
+          </div>
+          <div class="control">
+            <div class="control-label">
+              <label for="resonance">Resonance</label
+              ><output id="resonance-value" for="resonance">62</output>
+            </div>
+            <input
+              id="resonance"
+              class="shape-slider"
+              type="range"
+              min="0"
+              max="100"
+              value="62"
+            />
+            <p id="resonance-help">Let the light linger.</p>
+          </div>
+          <div class="control">
+            <div class="control-label">
+              <label for="growth">Growth</label
+              ><output id="growth-value" for="growth">58</output>
+            </div>
+            <input
+              id="growth"
+              class="shape-slider"
+              type="range"
+              min="0"
+              max="100"
+              value="58"
+            />
+            <p id="growth-help">Open the pattern into wider ripples.</p>
+          </div>
+          <details class="mapping">
+            <summary>
+              What shapes the scene? <span aria-hidden="true">＋</span>
+            </summary>
+            <div>
+              <p>
+                <b>Impact</b>
+                <span id="impact-mapping"
+                  >lets low-frequency energy stir the water pattern.</span
+                >
+              </p>
+              <p>
+                <b>Resonance</b>
+                <span id="resonance-mapping"
+                  >blends immediate energy with a slower, lingering
+                  response.</span
+                >
+              </p>
+              <p>
+                <b>Growth</b>
+                <span id="growth-mapping"
+                  >opens the light into larger, gentler cells.</span
+                >
+              </p>
+              <p class="mapping-note">
+                These are artistic connections, not instrument or beat
+                recognition.
+              </p>
+            </div>
+          </details>
+          <div class="export-panel">
+            <div class="export-heading">
+              <label class="eyebrow" for="clip-length">KEEP THIS MOMENT</label
+              ><select id="clip-length" aria-label="Film length">
+                <option value="15">15 seconds</option>
+                <option value="30">30 seconds</option>
+              </select>
+            </div>
+            <button id="export-film" class="export-button" disabled>
+              <span id="export-label">Export film</span
+              ><span aria-hidden="true">↗</span></button
+            ><button id="cancel-export" class="cancel-button" hidden>
+              Cancel recording
+            </button>
+            <p id="export-note">720p · with sound · records in real time</p>
+            <button
+              id="download-film"
+              class="text-button download-again"
+              hidden
+            >
+              Download your film again ↓
+            </button>
+            <div class="settings-actions">
+              <button class="text-button" id="save-settings">
+                Save settings ↓</button
+              ><button class="text-button" id="load-settings">
+                Load settings ↑
+              </button>
+            </div>
+          </div>
+        </aside>
+      </div>
+      <div class="status-row">
+        <p id="status" role="status" aria-live="polite">
+          <span class="status-dot" aria-hidden="true"></span
+          ><span id="status-text"
+            >Press play to meet the demo, or bring a track of your own.</span
+          >
+        </p>
+        <span class="privacy-note"
+          >♧ &nbsp; Your music stays on your device.</span
+        >
+      </div>
+    </main>
+    <footer>
+      <span>A small experiment in listening differently.</span
+      ><span class="footer-process">SOUND <i>→</i> MEMORY <i>→</i> FORM</span
+      ><span
+        >FIRST EDITION
+        <span class="footer-star" aria-hidden="true">✳</span></span
+      >
+    </footer>
+    <input
+      id="audio-file"
+      type="file"
+      accept="audio/*,.flac,.wav,.mp3,.m4a,.ogg,.aiff,.aac"
+      hidden
+    /><input
+      id="settings-file"
+      type="file"
+      accept="application/json,.json"
+      hidden
+    />
+    <dialog id="about-dialog" aria-labelledby="about-title">
+      <button
+        class="dialog-close"
+        id="close-about"
+        aria-label="Close explanation"
+      >
+        ×</button
+      ><span class="eyebrow">A DIFFERENT WAY TO LISTEN</span>
+      <h2 id="about-title">Sound, with a little memory.</h2>
+      <p>
+        Choose Pool Light for sunlight refracted through rippling water, or Stanford
+        Bunny for a softly responsive sculpture. Bring your own audio, shape its
+        visual response, then keep a short film. The material label on the bunny
+        switches between fur and copper.
+      </p>
+      <ol>
+        <li>
+          <b>Bring a track.</b> Press play for the demo, or choose an audio
+          file. Up to 80 MB and 10 minutes.
+        </li>
+        <li>
+          <b>Find your form.</b> Adjust the three controls. Drag the canvas to
+          explore the view. Click or drag the waveform to revisit a moment.
+        </li>
+        <li>
+          <b>Keep what you make.</b> Save your settings or export a 15- or
+          30-second film from the playhead. Clips stop at the end of the track.
+        </li>
+      </ol>
+      <p>
+        Film recording happens in real time. Keep this tab visible until it
+        finishes. Your settings file contains the controls and camera view;
+        bring the same audio file to recreate the work.
+      </p>
+      <p class="dialog-footnote">
+        Pool Light is adapted from <a href="https://github.com/evanw/webgl-water">Evan Wallace’s WebGL Water</a> (MIT).
+        Tile texture by <a href="https://www.flickr.com/photos/zooboing/3682834083/">Patrick Hoesly</a>,
+        <a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a>.
+      </p>
+      <p class="dialog-footnote">
+        Stanford Bunny scan courtesy of the Stanford Computer Graphics
+        Laboratory, adapted from the public-domain bunny package. Built from a
+        six-visualization p5.js course project.
+      </p>
+      <a href="classic.html" class="classic-link">Visit the original six ↗</a>
+    </dialog>
+    <noscript
+      >This studio needs JavaScript to listen to your audio and draw the
+      sculpture.</noscript
+    >
+  </body>
 </html>
