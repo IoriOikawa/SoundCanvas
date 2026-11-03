@@ -62,16 +62,10 @@ These are artistic audio-to-visual mappings, not beat tracking, source separatio
 
 The studio currently offers two scenes: **Pool Light** and **Stanford Bunny**. Mesh provenance and regeneration instructions are in [the model notice](assets/BUNNY-NOTICE.md).
 
-Audio playback and film audio remain unprocessed. The underwater pool viewpoint is implemented; future listening treatment and scene directions are recorded in [the roadmap](docs/roadmap.md).
+Audio playback and film audio remain unprocessed. The underwater pool viewpoint is implemented; underwater audio treatment remains future work.
 
 ## Original six
 
 [Open the original p5.js experience](classic.html). Keys 1–6 switch effects; Space opens the menu. The original scripts and bundled libraries remain available. [Original course-project notes and design sketches](docs/classic-project.md).
 
-## Project notes
-
-- [Direction research](docs/research/2026-11-02-soundcanvas-directions.md)
-- [Implementation plan](docs/superpowers/plans/2026-11-02-sound-sculpture.md)
-- [Verification notes](docs/verification-v1.md)
-
-This version is a local prototype, not a published update to the deployed demo.
+This version is a prototype on the development branch, not a published update to the deployed demo.
