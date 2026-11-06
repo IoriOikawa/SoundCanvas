@@ -23,14 +23,17 @@ attribute vec3 normal;
 uniform mat4 projection;
 uniform mat4 view;
 uniform float scale;
+varying vec3 objectNormal;
 varying vec3 viewNormal;
 void main(){
+  objectNormal=normal;
   viewNormal=mat3(view)*normal;
   gl_Position=projection*view*vec4(position*scale,1.);
 }`;
 
 export const EARTH_OCEAN_FRAGMENT = `
 precision mediump float;
+varying vec3 objectNormal;
 varying vec3 viewNormal;
 uniform float rim;
 float gridLine(float value,float count){
@@ -38,11 +41,12 @@ float gridLine(float value,float count){
   return smoothstep(.468,.498,distanceFromCenter);
 }
 void main(){
-  vec3 normal=normalize(viewNormal);
-  float latitude=asin(clamp(normal.y,-1.,1.))/3.14159265+.5;
-  float longitude=atan(normal.z,normal.x)/6.2831853+.5;
+  vec3 globe=normalize(objectNormal);
+  vec3 view=normalize(viewNormal);
+  float latitude=asin(clamp(globe.y,-1.,1.))/3.14159265+.5;
+  float longitude=atan(globe.z,globe.x)/6.2831853+.5;
   float grid=max(gridLine(latitude,9.),gridLine(longitude,18.))*.15;
-  float edge=pow(1.-abs(normal.z),3.);
+  float edge=pow(1.-abs(view.z),3.);
   vec3 color=vec3(.018,.052,.054);
   color+=vec3(.16,.32,.30)*grid;
   color+=vec3(.20,.46,.42)*edge*rim;

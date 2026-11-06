@@ -1,7 +1,7 @@
-import { SignalRenderer } from "./signal-renderer.js?v=signal-aa-1";
-import { RainRenderer } from "./rain-renderer.js?v=signal-aa-1";
-import { SculptureRenderer } from "./renderer.js?v=signal-aa-1";
-import { CausticsRenderer } from "./caustics-renderer.js?v=signal-aa-1";
+import { SignalRenderer } from "./signal-renderer.js?v=earth-1";
+import { RainRenderer } from "./rain-renderer.js?v=earth-1";
+import { SculptureRenderer } from "./renderer.js?v=earth-1";
+import { CausticsRenderer } from "./caustics-renderer.js?v=earth-1";
 import { EarthRenderer } from "./earth-renderer.js?v=earth-1";
 
 export function sceneRendererClass(scene) {

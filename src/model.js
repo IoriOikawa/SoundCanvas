@@ -1,5 +1,5 @@
-import { sampleFeatures } from "./analysis.js?v=signal-aa-1";
-import { BUNNY_POSITIONS, BUNNY_INDICES } from "./bunny-data.js?v=signal-aa-1";
+import { sampleFeatures } from "./analysis.js?v=earth-1";
+import { BUNNY_POSITIONS, BUNNY_INDICES } from "./bunny-data.js?v=earth-1";
 
 export const DEFAULT_SETTINGS = Object.freeze({
   impact: 0.55,

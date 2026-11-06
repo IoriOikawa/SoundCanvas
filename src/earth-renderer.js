@@ -23,6 +23,16 @@ function perspective(aspect) {
   ]);
 }
 
+export function earthCameraDistance(aspect) {
+  const field = 1 / Math.tan(0.64 / 2);
+  const radius = 1.06;
+  const target = 0.7;
+  const limitingAxis = Math.max(1, 1 / Math.max(0.1, aspect));
+  return Math.sqrt(
+    radius ** 2 + ((radius * field * limitingAxis) / target) ** 2,
+  );
+}
+
 function lookAt(eye) {
   const normalize = (values) => {
     const length = Math.hypot(...values) || 1;
@@ -171,7 +181,7 @@ export class EarthRenderer {
     const projection = perspective(aspect);
     const yaw = settings.yaw + time * 0.018 + frame.low * 0.025;
     const pitch = settings.pitch - 0.16;
-    const distance = aspect < 1.1 ? 3.55 : 3.25;
+    const distance = earthCameraDistance(aspect);
     const eye = [
       Math.cos(yaw) * Math.cos(pitch) * distance,
       Math.sin(pitch) * distance,

@@ -1,10 +1,10 @@
 import {
   selectPoolDrops,
   preparePoolDropPreview,
-} from "./pool-drop.js?v=signal-aa-1";
-import { movePoolCamera } from "./pool-hall.js?v=signal-aa-1";
-import { AudioTransport, analyzeBuffer } from "./audio.js?v=signal-aa-1";
-import { createSceneRenderer } from "./scenes.js?v=signal-aa-1";
+} from "./pool-drop.js?v=earth-1";
+import { movePoolCamera } from "./pool-hall.js?v=earth-1";
+import { AudioTransport, analyzeBuffer } from "./audio.js?v=earth-1";
+import { createSceneRenderer } from "./scenes.js?v=earth-1";
 import {
   DEFAULT_SETTINGS,
   clamp,
@@ -12,8 +12,8 @@ import {
   parseSettings,
   serializeSettings,
   clipRange,
-} from "./model.js?v=signal-aa-1";
-import { recordFilm, recordingType, download } from "./export.js?v=signal-aa-1";
+} from "./model.js?v=earth-1";
+import { recordFilm, recordingType, download } from "./export.js?v=earth-1";
 
 const $ = (id) => document.getElementById(id);
 const transport = new AudioTransport();
@@ -105,12 +105,15 @@ function syncControls() {
   const pool = settings.scene === "pool";
   const rain = settings.scene === "rain";
   const signal = settings.scene === "signal";
+  const earth = settings.scene === "earth";
   updateDropControls();
   $("scene-select").value = settings.scene;
-  $("scene-number").textContent = signal ? "004" : rain ? "003" : pool ? "002" : "001";
+  $("scene-number").textContent = earth ? "005" : signal ? "004" : rain ? "003" : pool ? "002" : "001";
   $("stage").classList.toggle("pool-scene", pool);
-  $("fur-toggle").hidden = pool || rain || signal;
+  $("stage").classList.toggle("earth-scene", earth);
+  $("fur-toggle").hidden = pool || rain || signal || earth;
   $("pool-material").hidden = !pool;
+  $("earth-material").hidden = !earth;
   $("fur-toggle").setAttribute("aria-pressed", String(settings.fur));
   $("material-label").textContent = settings.fur
     ? "WARM IVORY FUR"
@@ -124,7 +127,7 @@ function syncControls() {
     : "Drag to turn · Music shapes the surface";
   $("reset-view").setAttribute(
     "aria-label",
-    pool ? "Reset pool view" : "Reset sculpture view",
+    pool ? "Reset pool view" : earth ? "Reset Earth view" : "Reset sculpture view",
   );
   $("impact-help").textContent = pool
     ? "Let low notes stir the surface."
@@ -179,6 +182,17 @@ function syncControls() {
     $("resonance-mapping").textContent = "smooths neighboring samples along each contour.";
     $("growth-mapping").textContent = "widens the central region where the waveform rises.";
     canvas.setAttribute("aria-label", "Signal Lines: white audio contours on black, entering below and scrolling upward, with at most 64 lines.");
+  }
+  if (earth) {
+    $("stage-title").textContent = "A world, moved by sound.";
+    $("stage-help").textContent = "Drag to turn · Music rises through the land";
+    $("impact-help").textContent = "Let the continents rise with more force.";
+    $("resonance-help").textContent = "Let neighboring regions move together.";
+    $("growth-help").textContent = "Fill the land with a denser field.";
+    $("impact-mapping").textContent = "sets the height of continent columns and the strength of onset waves.";
+    $("resonance-mapping").textContent = "widens spatial groups and lengthens their release.";
+    $("growth-mapping").textContent = "reveals more of the base column field and raises its resting texture.";
+    canvas.setAttribute("aria-label", "Dancing Earth: a rotating globe with luminous continents shaped by music. Drag or use arrow keys to rotate.");
   }
   ensureRenderer();
   for (const key of ["impact", "resonance", "growth"]) {
@@ -385,7 +399,7 @@ $("scene-select").addEventListener("change", () => {
   persist();
   if (renderer)
     status(
-      settings.scene === "signal" ? "Signal Lines. Press play to let the contours gather." : settings.scene === "rain" ? "Rain Window. A quiet view, shaped by your music." : settings.scene === "pool"
+      settings.scene === "earth" ? "Dancing Earth. Music rises through the land." : settings.scene === "signal" ? "Signal Lines. Press play to let the contours gather." : settings.scene === "rain" ? "Rain Window. A quiet view, shaped by your music." : settings.scene === "pool"
         ? "Pool Light. Sunlight, white tile, and water."
         : "Stanford Bunny. The coat is just where you left it.",
     );
