@@ -1,12 +1,12 @@
-import { MAX_POOL_BALLS } from "./pool-drop.js?v=duck-toggle-1";
+import { MAX_POOL_BALLS } from "./pool-drop.js?v=signal-aa-1";
 // Pool-world adaptation of Evan Wallace's MIT differential-area caustics.
 // Copyright 2011 Evan Wallace. Original notice: assets/WATER-NOTICE.md.
 import {
   WATER_SURFACE,
   waterGrid,
   waterSurfaceGLSL,
-} from "./water-surface.js?v=duck-toggle-1";
-import { POOL_SUN } from "./pool-hall.js?v=duck-toggle-1";
+} from "./water-surface.js?v=signal-aa-1";
+import { POOL_SUN } from "./pool-hall.js?v=signal-aa-1";
 export function createWaterCaustics(GL, gl) {
   const derivatives = !!gl.getExtension("OES_standard_derivatives");
   const grid = waterGrid();

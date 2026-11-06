@@ -1,6 +1,6 @@
-import { MAX_POOL_BALLS } from "./pool-drop.js?v=duck-toggle-1";
-import { waterSurfaceGLSL } from "./water-surface.js?v=duck-toggle-1";
-import { POOL_SUN } from "./pool-hall.js?v=duck-toggle-1";
+import { MAX_POOL_BALLS } from "./pool-drop.js?v=signal-aa-1";
+import { waterSurfaceGLSL } from "./water-surface.js?v=signal-aa-1";
+import { POOL_SUN } from "./pool-hall.js?v=signal-aa-1";
 export const hallVertex = `
 varying vec2 uv;
 void main(){uv=gl_Vertex.xy*.5+.5;gl_Position=vec4(gl_Vertex.xyz,1.);}

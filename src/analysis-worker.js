@@ -1,4 +1,4 @@
-import { analyzePCM } from "./analysis.js?v=duck-toggle-1";
+import { analyzePCM } from "./analysis.js?v=signal-aa-1";
 
 self.onmessage = ({ data }) => {
   try {

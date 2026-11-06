@@ -1,5 +1,5 @@
-import { poolHallCamera } from "./pool-hall.js?v=duck-toggle-1";
-import { hallVertex, hallFragment } from "./pool-hall-shaders.js?v=duck-toggle-1";
+import { poolHallCamera } from "./pool-hall.js?v=signal-aa-1";
+import { hallVertex, hallFragment } from "./pool-hall-shaders.js?v=signal-aa-1";
 export function createPoolHallRenderer(GL, gl) {
   const shader = new GL.Shader(
     hallVertex,

@@ -1,3 +1,4 @@
+import { SIGNAL_INTERVAL, SIGNAL_SAMPLES } from "./signal-lines.js?v=signal-aa-1";
 const CHANNELS = ["energy", "low", "mid", "high", "onset", "memory"];
 const clamp = (v, lo = 0, hi = 1) => Math.min(hi, Math.max(lo, v));
 
@@ -53,6 +54,18 @@ export function analyzePCM(pcm, sampleRate, onProgress = () => {}) {
     result.onset[i] = onset;
     result.memory[i] = memory;
     previous = energy;
+  }
+  // Retain compact local RMS contours, not the full decoded PCM, for stacked lines.
+  const slices = Math.floor(result.duration / SIGNAL_INTERVAL);
+  result.lineProfiles = new Float32Array(slices * SIGNAL_SAMPLES);
+  for (let row = 0; row < slices; row++) {
+    for (let x = 0; x < SIGNAL_SAMPLES; x++) {
+      const start = Math.floor((row + x / SIGNAL_SAMPLES) * SIGNAL_INTERVAL * sampleRate);
+      const end = Math.min(pcm.length, Math.floor((row + (x + 1) / SIGNAL_SAMPLES) * SIGNAL_INTERVAL * sampleRate));
+      let power = 0;
+      for (let at = start; at < end; at++) { const v = Number.isFinite(pcm[at]) ? pcm[at] : 0; power += v * v; }
+      result.lineProfiles[row * SIGNAL_SAMPLES + x] = clamp(Math.sqrt(power / Math.max(1, end - start)) / reference);
+    }
   }
   onProgress(1);
   return result;

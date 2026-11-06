@@ -20,6 +20,22 @@ A sunlit white-tile pool hall with reflections, refraction, underwater caustics 
 
 *Concept illustration expressing the scene’s atmosphere; the character and illustrated lighting are not a screenshot of the real-time renderer.*
 
+## Rain Window
+
+A close view of a dark, four-pane window with refracting droplets, merging drops and lingering wet trails. Switch between a procedural rainy garden, evening street and night lights without resetting the rain. Musical onsets encourage new drops; sustained and high-frequency energy influence rain arrivals. An independent lightning toggle enables sparse accent-driven flashes outside the window.
+
+The scenery is an initial procedural illustration, not photography. The rain uses a bounded, fixed-step droplet simulation and a WebGL refraction pass, with state reconstruction for seeking and film export. It approximates water on glass rather than solving a full fluid model.
+
+## Signal Lines
+
+Black-and-white stacked contours inspired by Joy Division’s *Unknown Pleasures* cover. Every 0.18 seconds, a completed slice of the decoded audio enters below the older lines, pushing the history upward. At most 64 lines remain visible. The contours use local RMS audio profiles, a central envelope and foreground occlusion; they are not the cover’s original data or a frequency spectrum.
+
+Impact adjusts height, Resonance smooths each contour, and Growth widens the central activity. Pausing freezes the scroll; seeking and film export reconstruct the same audio history. This scene shares the canvas dimensions of the other scenes.
+
+### Stable thin-line rendering
+
+WebGL's native one-pixel `LINE_STRIP` changed apparent brightness as the scrolling contours crossed the pixel grid, producing periodic light and dark bands. Signal Lines therefore builds every contour as a narrow triangle ribbon. Each ribbon vertex stores its signed distance from the centre line; the fragment shader converts that distance into fractional edge coverage and blends the edge pixels smoothly. The ribbon width is expressed in physical pixels and adjusted for the canvas pixel density, so ordinary and high-density displays retain a similar visual weight. A black fill beneath each new contour still hides the portions of older contours it crosses.
+
 ## Run locally
 
 ```sh
@@ -62,7 +78,7 @@ Before audio loads, Pool Light runs a quiet ambient preview; the bunny starts at
 
 These are artistic audio-to-visual mappings, not beat tracking, source separation, semantic song understanding or a unique song fingerprint.
 
-The studio currently offers two scenes: **Stanford Bunny** and **Pool Light**. Mesh provenance and regeneration instructions are in [the model notice](assets/BUNNY-NOTICE.md).
+The studio currently offers four scenes: **Stanford Bunny**, **Pool Light**, **Rain Window** and **Signal Lines**. Mesh provenance and regeneration instructions are in [the model notice](assets/BUNNY-NOTICE.md).
 
 Audio playback and film audio remain unprocessed. The underwater pool viewpoint is implemented; underwater audio treatment remains future work.
 
