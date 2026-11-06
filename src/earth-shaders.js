@@ -25,10 +25,20 @@ uniform mat4 view;
 uniform float scale;
 varying vec3 objectNormal;
 varying vec3 viewNormal;
+const float axialTilt=.40840704;
+vec3 tiltEarth(vec3 point){
+  float cosine=cos(axialTilt);
+  float sine=sin(axialTilt);
+  return vec3(
+    cosine*point.x-sine*point.y,
+    sine*point.x+cosine*point.y,
+    point.z
+  );
+}
 void main(){
   objectNormal=normal;
-  viewNormal=mat3(view)*normal;
-  gl_Position=projection*view*vec4(position*scale,1.);
+  viewNormal=mat3(view)*tiltEarth(normal);
+  gl_Position=projection*view*vec4(tiltEarth(position*scale),1.);
 }`;
 
 export const EARTH_OCEAN_FRAGMENT = `
@@ -65,12 +75,23 @@ uniform float scale;
 varying float along;
 varying float tip;
 varying vec3 sideNormal;
+const float axialTilt=.40840704;
+vec3 tiltEarth(vec3 point){
+  float cosine=cos(axialTilt);
+  float sine=sin(axialTilt);
+  return vec3(
+    cosine*point.x-sine*point.y,
+    sine*point.x+cosine*point.y,
+    point.z
+  );
+}
 void main(){
   along=local.z;
   tip=activity.y;
   vec3 position=root*(scale+.003+local.z*activity.x)+tangent*local.x+bitangent*local.y;
-  sideNormal=mat3(view)*normalize(tangent*local.x+bitangent*local.y);
-  gl_Position=projection*view*vec4(position,1.);
+  vec3 side=normalize(tangent*local.x+bitangent*local.y);
+  sideNormal=mat3(view)*tiltEarth(side);
+  gl_Position=projection*view*vec4(tiltEarth(position),1.);
 }`;
 
 export const EARTH_COLUMN_FRAGMENT = `
