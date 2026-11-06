@@ -1,7 +1,12 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { createSceneRenderer } from "../src/scenes.js";
+import { createSceneRenderer, sceneRendererClass } from "../src/scenes.js";
 import { DEFAULT_SETTINGS } from "../src/model.js";
+import { EarthRenderer } from "../src/earth-renderer.js?v=earth-1";
+
+test("scene routing selects the Dancing Earth renderer", () => {
+  assert.equal(sceneRendererClass("earth"), EarthRenderer);
+});
 
 test("successive bunny renderers never draw using deleted outgoing vertex buffers", () => {
   // Model the WebGL boundary's enabled-array lifetime, not its shader math.

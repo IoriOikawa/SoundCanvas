@@ -41,7 +41,7 @@ export function parseSettings(json) {
     if (data.settings[key] === undefined) continue;
     const value = data.settings[key];
     if (key === "scene") {
-      if (!["pool", "bunny", "rain", "signal"].includes(value))
+      if (!["pool", "bunny", "rain", "signal", "earth"].includes(value))
         throw new Error("Invalid scene setting.");
       settings.scene = value;
       continue;
@@ -88,13 +88,17 @@ export function parseSettings(json) {
 }
 
 export function serializeSettings(settings) {
+  const titles = {
+    bunny: "SoundCanvas · Stanford Bunny",
+    pool: "SoundCanvas · Pool Light",
+    rain: "SoundCanvas · Rain Window",
+    signal: "SoundCanvas · Signal Lines",
+    earth: "SoundCanvas · Dancing Earth",
+  };
   return JSON.stringify(
     {
       version: 1,
-      name:
-        settings.scene === "signal" ? "SoundCanvas · Signal Lines" : settings.scene === "rain" ? "SoundCanvas · Rain Window" : settings.scene === "pool"
-          ? "SoundCanvas · Pool Light"
-          : "SoundCanvas · Stanford Bunny",
+      name: titles[settings.scene] || titles.bunny,
       settings,
     },
     null,
