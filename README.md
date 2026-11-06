@@ -2,7 +2,7 @@
 
 [English](README.md) · [简体中文](README.zh-CN.md) · [日本語](README.ja.md)
 
-A browser studio that turns a track into a responsive, furry Stanford Bunny or sunlit, rippling water. Bring local audio, adjust its response, revisit a moment, and export a short film. No accounts, production dependencies, audio uploads, or build step.
+A browser studio with five scenes that turn a track into sculpture, water, rain, stacked contours or a luminous world. Bring local audio, adjust its response, revisit a moment, and export a short film. No accounts, production dependencies, audio uploads, or build step.
 
 ## Stanford Bunny
 
@@ -36,6 +36,12 @@ Impact adjusts height, Resonance smooths each contour, and Growth widens the cen
 
 WebGL's native one-pixel `LINE_STRIP` changed apparent brightness as the scrolling contours crossed the pixel grid, producing periodic light and dark bands. Signal Lines therefore builds every contour as a narrow triangle ribbon. Each ribbon vertex stores its signed distance from the centre line; the fragment shader converts that distance into fractional edge coverage and blends the edge pixels smoothly. The ribbon width is expressed in physical pixels and adjusted for the canvas pixel density, so ordinary and high-density displays retain a similar visual weight. A black fill beneath each new contour still hides the portions of older contours it crosses.
 
+## Dancing Earth
+
+A near-black mineral-teal globe whose continents are filled with rows of slender luminous columns. Low frequencies make the whole globe breathe, mid frequencies move neighboring land regions together, high frequencies warm the tips, and strong onsets send a restrained light wave across the land.
+
+Impact changes column height, Resonance widens the moving groups and their release, and Growth reveals a denser resting field. Drag or use arrow keys to rotate the globe. Seeking and film export reconstruct the same state from audio time and settings. The filled land samples are prepared offline from the public-domain Natural Earth 1:110m land dataset; see the [data notice and regeneration details](assets/EARTH-NOTICE.md). This is an artistic audio mapping, not scientific, elevation or political data.
+
 ## Run locally
 
 ```sh
@@ -53,7 +59,7 @@ Tests use Node.js 20+ and its built-in runner. No dependency installation is nec
 ## Make something
 
 1. Press play to load the original demo, or choose/drop your own audio file. Audio stays on your device. Limits: 80 MB and 10 minutes; codecs depend on your browser.
-2. Choose **Stanford Bunny** or **Pool Light** from the scene selector at the top left of the canvas. Adjust **Impact**, **Resonance**, and **Growth**. In Pool Light, these shape the strength, lingering musical response and size of local water ripples; click the scene, hold **W/A/S/D** to move forward/left/back/right, and drag or use arrow keys to look around. Use **Q/E** to dive/rise inside the basin; camera bounds keep you inside the hall and above the pool floor. Reset view returns to the near pool edge. On the bunny, Growth also changes coat length, dragging or arrow keys turn the camera, and the material label switches fur/copper. Space toggles playback when the page or canvas is focused.
+2. Choose any scene from the selector at the top left of the canvas, then adjust **Impact**, **Resonance**, and **Growth**. In Pool Light, click the scene, hold **W/A/S/D** to move and use **Q/E** to dive/rise. On the bunny and Dancing Earth, dragging or arrow keys rotate the view. On Earth, the controls change column height, regional grouping and field density. Space toggles playback when the page or canvas is focused.
 3. Pool Light offers an independent **Duck on / Duck off** switch. The duck follows the water height and tilt; switch it off for pure water. Musical ball drops are currently disabled.
 4. Use the waveform to revisit a moment. The same decoded track, time, settings and camera reproduce the same geometric state.
 5. **Save settings** downloads a versioned JSON file. Controls, scene, pool position and both camera views also persist locally when browser storage is available. Settings do not include the audio or playhead; reopen the same audio and revisit the same timestamp to recreate a frame.
@@ -61,7 +67,7 @@ Tests use Node.js 20+ and its built-in runner. No dependency installation is nec
 
 Film export records in real time: keep the tab visible. Hiding the tab stops the recording with an explanation. Chrome/Edge usually export WebM (VP9/VP8 + Opus); other browsers may offer MP4. Output type and codecs are detected at runtime. Encoding and dropped frames depend on the browser and device; this is not an offline, frame-perfect renderer. Save settings and film downloads are local files.
 
-Before audio loads, Pool Light runs a quiet ambient preview; the bunny starts at time zero. Audio modulation begins after a track loads. Silent tracks retain only baseline movement.
+Before audio loads, Pool Light and Dancing Earth run quiet ambient previews; the bunny starts at time zero. Audio modulation begins after a track loads. Silent tracks retain only baseline movement.
 
 ## How it works
 
@@ -72,13 +78,14 @@ Before audio loads, Pool Light runs a quiet ambient preview; the bunny starts at
 - `src/model.js` maps current and historical features into subtle surface deformations of the Stanford Bunny scan. Shape depends on audio time, rather than accumulated display frames. Impact changes low-end/transient deformation; Resonance blends immediate energy with a slower response; Growth extends the history window and its geometric influence.
 - `src/renderer.js` provides a WebGL mesh, normals, copper/ivory-fur lighting and orbit camera. Preview updates at up to 30 fps, with capped pixel density. There is no claim of universal performance or cross-browser pixel-identical decoding/rendering.
 - `src/fur.js` and `src/fur-shaders.js` provide an optional 24-shell, alpha-tested coat, with static rest-space strand roots and audio-time sway. The toggle is saved with the settings. This is an artistic shell approximation, not strand-by-strand physical hair simulation.
+- `scripts/prepare-earth.mjs` verifies and samples a pinned Natural Earth land file into compact local rows. `src/earth-motion.js` maps low, mid, high and onset features into bounded, seek-stable motion. `src/earth-renderer.js` draws the opaque ocean sphere, procedural grid and filled column field with depth occlusion. See the [Earth data notice](assets/EARTH-NOTICE.md).
 - The procedural duck in `src/pool-hall-shaders.js` samples water height around its body to follow the surface and tilt with waves. Its visibility is saved with settings. This is a visual buoyancy approximation, not a rigid-body fluid simulation. Earlier ball-drop experiments in `src/pool-drop.js` remain in the source, but their controls, waveform markers, rendering and water displacement are disabled in this milestone.
 - `src/audio.js` owns decoding, transport, source cleanup and worker analysis.
 - `src/export.js` records a separate canvas and audio destination and restores the transport. `src/webm.js` supplies Duration metadata for unindexed streaming WebM without touching encoded clusters.
 
 These are artistic audio-to-visual mappings, not beat tracking, source separation, semantic song understanding or a unique song fingerprint.
 
-The studio currently offers four scenes: **Stanford Bunny**, **Pool Light**, **Rain Window** and **Signal Lines**. Mesh provenance and regeneration instructions are in [the model notice](assets/BUNNY-NOTICE.md).
+The studio currently offers five scenes: **Stanford Bunny**, **Pool Light**, **Rain Window**, **Signal Lines** and **Dancing Earth**. Mesh provenance and regeneration instructions are in [the model notice](assets/BUNNY-NOTICE.md).
 
 Audio playback and film audio remain unprocessed. The underwater pool viewpoint is implemented; underwater audio treatment remains future work.
 
