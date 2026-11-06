@@ -15,6 +15,15 @@ const samples = new Float32Array([
   0.7, 0.2, 0.68, 0.5, 0.4, 0.5,
   0, 0.4, 0.92, 0.75, 0.8, 0.9,
 ]);
+const transientAnalysis = () => ({
+  step: 0.02,
+  low: Float32Array.from({ length: 60 }, () => 0),
+  mid: Float32Array.from({ length: 60 }, (_, index) =>
+    index >= 25 ? 1 : 0,
+  ),
+  high: Float32Array.from({ length: 60 }, () => 0),
+  onset: Float32Array.from({ length: 60 }, () => 0),
+});
 
 test("silence keeps a finite readable base field", () => {
   const frame = earthFrame(
@@ -54,9 +63,19 @@ test("frequency bands act at different scales and stay bounded", () => {
   assert.ok(Math.max(...high.tips) > Math.max(...mid.tips));
   for (const frame of [bass, mid, high]) {
     assert.ok(frame.scale <= 1.03);
-    assert.ok(frame.heights.every((value) => value >= 0 && value <= 0.42));
+    assert.ok(frame.heights.every((value) => value >= 0 && value <= 0.46));
     assert.ok(frame.tips.every((value) => value >= 0 && value <= 1));
   }
+});
+
+test("mid-frequency transients visibly lift land within a quarter-second", () => {
+  const frame = earthFrame(
+    transientAnalysis(),
+    0.62,
+    DEFAULT_SETTINGS,
+    samples,
+  );
+  assert.ok(Math.max(...frame.heights) >= 0.14);
 });
 
 test("seeking is deterministic and controls have visible effects", () => {

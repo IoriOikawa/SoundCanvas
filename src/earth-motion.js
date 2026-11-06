@@ -32,7 +32,7 @@ export function earthFrame(
   settings,
   samples = EARTH_SAMPLES,
 ) {
-  const release = 0.06 + settings.resonance * 0.69;
+  const release = 0.035 + settings.resonance * 0.32;
   const low = smoothFeature(analysis, "low", time, release * 1.4);
   const mid = smoothFeature(analysis, "mid", time, release);
   const high = smoothFeature(
@@ -69,11 +69,11 @@ export function earthFrame(
     heights[sample] = clamp(
       base +
         settings.impact *
-          (mid * region * 0.27 +
-            high * sparkle * 0.045 +
-            wave * 0.12),
+          (mid * region * 0.35 +
+            high * sparkle * 0.065 +
+            wave * 0.16),
       0,
-      0.42,
+      0.46,
     );
     tips[sample] = clamp(high * (0.25 + sparkle * 0.75) + wave);
   }
