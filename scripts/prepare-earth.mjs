@@ -90,7 +90,7 @@ export function packSamples(samples) {
       return [
         latitudeRadius * Math.cos(theta),
         Math.sin(phi),
-        latitudeRadius * Math.sin(theta),
+        -latitudeRadius * Math.sin(theta),
         row,
         phase,
         density,

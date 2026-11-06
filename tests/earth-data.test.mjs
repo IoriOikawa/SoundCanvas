@@ -67,3 +67,16 @@ test("packed samples are finite unit vectors with bounded metadata", () => {
     assert.ok(packed[index + 5] >= 0 && packed[index + 5] <= 1);
   }
 });
+
+test("east and west longitudes pack to the renderer's expected sides", () => {
+  const [eastX, eastY, eastZ, , , , westX, westY, westZ] = packSamples([
+    { longitude: 90, latitude: 0, row: 0, phase: 0, density: 0 },
+    { longitude: -90, latitude: 0, row: 0, phase: 0, density: 0 },
+  ]);
+  assert.ok(Math.abs(eastX) < 1e-12);
+  assert.equal(eastY, 0);
+  assert.equal(Math.sign(eastZ), -1);
+  assert.ok(Math.abs(westX) < 1e-12);
+  assert.equal(westY, 0);
+  assert.equal(Math.sign(westZ), 1);
+});
