@@ -1133,3 +1133,21 @@ noscript {
 .pool-event-controls #preview-drop { margin-left:auto; font-size:10px; }
 .pool-event-controls button:disabled { opacity:.45; cursor:default; }
 @media(max-width:500px){ .pool-event-controls{padding:12px 16px;gap:8px 10px;} .pool-event-controls #pool-drop-time{font-size:9px;} }
+
+/* Close, quiet rain-window composition. */
+.rain-scene { background: #252b29; }
+.rain-scene .stage-top { color: #e9eee5; text-shadow: 0 1px 5px #111; }
+.rain-scene .stage-caption { text-shadow: 0 2px 8px #111; }
+.rain-scene .stage-title { color: #f0efe4; font-size: clamp(21px, 2.5vw, 36px); }
+.rain-scene .stage-help { color: #d0d9d0; }
+.rain-scene canvas { cursor: default; }
+#rain-controls { flex-wrap: wrap; gap: 12px; }
+#rain-controls label { font-size: 11px; color: #697363; }
+#rain-background { background: transparent; color: #495345; border: 1px solid #c8cdbf; border-radius: 16px; padding: 6px 10px; font: inherit; font-size: 12px; }
+#rain-lightning { margin-left: auto; }
+
+.signal-scene { background: #000; }
+.signal-scene .stage-top { color: #c4c4bd; }
+.signal-scene .stage-title { color: #d3d3cc; font-size: clamp(20px, 2.3vw, 32px); }
+.signal-scene .stage-help { color: #8a8a85; }
+.signal-scene canvas { cursor: default; }

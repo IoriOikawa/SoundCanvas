@@ -1,12 +1,12 @@
-import { createProgram as program } from "./gl.js?v=duck-toggle-1";
-import { buildSculpture } from "./model.js?v=duck-toggle-1";
+import { createProgram as program } from "./gl.js?v=signal-aa-1";
+import { buildSculpture } from "./model.js?v=signal-aa-1";
 
-import { BUNNY_POSITIONS } from "./bunny-data.js?v=duck-toggle-1";
-import { getFurParameters } from "./fur.js?v=duck-toggle-1";
+import { BUNNY_POSITIONS } from "./bunny-data.js?v=signal-aa-1";
+import { getFurParameters } from "./fur.js?v=signal-aa-1";
 import {
   FUR_VERTEX as vertex,
   FUR_FRAGMENT as fragment,
-} from "./fur-shaders.js?v=duck-toggle-1";
+} from "./fur-shaders.js?v=signal-aa-1";
 
 const backgroundVertex = `attribute vec2 position; varying vec2 uv; void main(){uv=position*.5+.5;gl_Position=vec4(position,0.,1.);}`;
 const backgroundFragment = `precision mediump float; varying vec2 uv;

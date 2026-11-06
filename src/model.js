@@ -1,5 +1,5 @@
-import { sampleFeatures } from "./analysis.js?v=duck-toggle-1";
-import { BUNNY_POSITIONS, BUNNY_INDICES } from "./bunny-data.js?v=duck-toggle-1";
+import { sampleFeatures } from "./analysis.js?v=signal-aa-1";
+import { BUNNY_POSITIONS, BUNNY_INDICES } from "./bunny-data.js?v=signal-aa-1";
 
 export const DEFAULT_SETTINGS = Object.freeze({
   impact: 0.55,
@@ -12,6 +12,8 @@ export const DEFAULT_SETTINGS = Object.freeze({
   scene: "pool",
   poolDrop: true,
   duckVisible: true,
+  rainBackground: "garden",
+  rainLightning: true,
   poolPanX: 0,
   poolPanY: 0,
   poolX: -0.45,
@@ -39,12 +41,17 @@ export function parseSettings(json) {
     if (data.settings[key] === undefined) continue;
     const value = data.settings[key];
     if (key === "scene") {
-      if (!["pool", "bunny"].includes(value))
+      if (!["pool", "bunny", "rain", "signal"].includes(value))
         throw new Error("Invalid scene setting.");
       settings.scene = value;
       continue;
     }
-    if (key === "fur" || key === "poolDrop" || key === "duckVisible") {
+    if (key === "rainBackground") {
+      if (!["garden", "dusk", "night"].includes(value)) throw new Error("Invalid rain background.");
+      settings[key] = value;
+      continue;
+    }
+    if (key === "fur" || key === "poolDrop" || key === "duckVisible" || key === "rainLightning") {
       if (typeof value !== "boolean")
         throw new Error(`Invalid ${key} setting.`);
       settings[key] = value;
@@ -85,7 +92,7 @@ export function serializeSettings(settings) {
     {
       version: 1,
       name:
-        settings.scene === "pool"
+        settings.scene === "signal" ? "SoundCanvas · Signal Lines" : settings.scene === "rain" ? "SoundCanvas · Rain Window" : settings.scene === "pool"
           ? "SoundCanvas · Pool Light"
           : "SoundCanvas · Stanford Bunny",
       settings,

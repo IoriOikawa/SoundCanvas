@@ -1,4 +1,4 @@
-import { sampleFeatures } from "./analysis.js?v=duck-toggle-1";
+import { sampleFeatures } from "./analysis.js?v=signal-aa-1";
 
 /** Stable shell coat parameters. No wall-clock simulation state is accumulated. */
 export function getFurParameters(analysis, time, settings) {

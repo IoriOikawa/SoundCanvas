@@ -1,4 +1,4 @@
-import { sampleFeatures } from "./analysis.js?v=duck-toggle-1";
+import { sampleFeatures } from "./analysis.js?v=signal-aa-1";
 export const waterFrame = (time) => Math.max(0, Math.floor(time * 60 + 1e-6));
 function random(n) {
   const x = Math.sin(n * 127.1 + 311.7) * 43758.5453;

@@ -1,10 +1,10 @@
 import {
   selectPoolDrops,
   preparePoolDropPreview,
-} from "./pool-drop.js?v=duck-toggle-1";
-import { movePoolCamera } from "./pool-hall.js?v=duck-toggle-1";
-import { AudioTransport, analyzeBuffer } from "./audio.js?v=duck-toggle-1";
-import { createSceneRenderer } from "./scenes.js?v=duck-toggle-1";
+} from "./pool-drop.js?v=signal-aa-1";
+import { movePoolCamera } from "./pool-hall.js?v=signal-aa-1";
+import { AudioTransport, analyzeBuffer } from "./audio.js?v=signal-aa-1";
+import { createSceneRenderer } from "./scenes.js?v=signal-aa-1";
 import {
   DEFAULT_SETTINGS,
   clamp,
@@ -12,8 +12,8 @@ import {
   parseSettings,
   serializeSettings,
   clipRange,
-} from "./model.js?v=duck-toggle-1";
-import { recordFilm, recordingType, download } from "./export.js?v=duck-toggle-1";
+} from "./model.js?v=signal-aa-1";
+import { recordFilm, recordingType, download } from "./export.js?v=signal-aa-1";
 
 const $ = (id) => document.getElementById(id);
 const transport = new AudioTransport();
@@ -103,11 +103,13 @@ function updateDropControls() {
 }
 function syncControls() {
   const pool = settings.scene === "pool";
+  const rain = settings.scene === "rain";
+  const signal = settings.scene === "signal";
   updateDropControls();
   $("scene-select").value = settings.scene;
-  $("scene-number").textContent = pool ? "002" : "001";
+  $("scene-number").textContent = signal ? "004" : rain ? "003" : pool ? "002" : "001";
   $("stage").classList.toggle("pool-scene", pool);
-  $("fur-toggle").hidden = pool;
+  $("fur-toggle").hidden = pool || rain || signal;
   $("pool-material").hidden = !pool;
   $("fur-toggle").setAttribute("aria-pressed", String(settings.fur));
   $("material-label").textContent = settings.fur
@@ -149,6 +151,35 @@ function syncControls() {
       ? "Sunlit white-tile pool hall. Click the scene, use WASD to move, Q to dive, E to rise, and drag or use arrow keys to look around."
       : `Interactive ${settings.fur ? "furry" : "copper"} Stanford Bunny sculpture. Drag or use arrow keys to rotate.`,
   );
+  $("stage").classList.toggle("rain-scene", rain);
+  $("rain-controls").hidden = !rain;
+  $("rain-background").value = settings.rainBackground;
+  $("rain-lightning").setAttribute("aria-pressed", String(settings.rainLightning));
+  $("rain-lightning").textContent = settings.rainLightning ? "Lightning on" : "Lightning off";
+  $("reset-view").hidden = rain || signal;
+  if (rain) {
+    $("stage-title").textContent = "A moment, against the glass.";
+    $("stage-help").textContent = "Music gathers in the rain.";
+    $("impact-help").textContent = "Let accents arrive as drops and distant light.";
+    $("resonance-help").textContent = "Let passing drops leave a longer trace.";
+    $("growth-help").textContent = "Let brighter sounds gather into finer rain.";
+    $("impact-mapping").textContent = "lets sharp onsets bring new drops and occasional distant light.";
+    $("resonance-mapping").textContent = "extends the lifetime of wet trails left on the glass.";
+    $("growth-mapping").textContent = "lets high-frequency energy increase the arrival of fine rain.";
+    canvas.setAttribute("aria-label", "Rain on a dark framed window, with merging water drops and a changeable view outside.");
+  }
+  $("stage").classList.toggle("signal-scene", signal);
+  if (signal) {
+    $("stage-title").textContent = "What remains of a sound.";
+    $("stage-help").textContent = "New lines arrive below · Older moments drift upward";
+    $("impact-help").textContent = "Give the contours more height.";
+    $("resonance-help").textContent = "Soften the fine detail along each line.";
+    $("growth-help").textContent = "Let the sound spread across the page.";
+    $("impact-mapping").textContent = "scales the height of each completed audio slice.";
+    $("resonance-mapping").textContent = "smooths neighboring samples along each contour.";
+    $("growth-mapping").textContent = "widens the central region where the waveform rises.";
+    canvas.setAttribute("aria-label", "Signal Lines: white audio contours on black, entering below and scrolling upward, with at most 64 lines.");
+  }
   ensureRenderer();
   for (const key of ["impact", "resonance", "growth"]) {
     const value = Math.round(settings[key] * 100);
@@ -173,6 +204,8 @@ function updateAvailability() {
     "reset-controls",
     "reset-view",
     "fur-toggle",
+    "rain-background",
+    "rain-lightning",
     "load-settings",
     "save-settings",
     "clip-length",
@@ -352,10 +385,20 @@ $("scene-select").addEventListener("change", () => {
   persist();
   if (renderer)
     status(
-      settings.scene === "pool"
+      settings.scene === "signal" ? "Signal Lines. Press play to let the contours gather." : settings.scene === "rain" ? "Rain Window. A quiet view, shaped by your music." : settings.scene === "pool"
         ? "Pool Light. Sunlight, white tile, and water."
         : "Stanford Bunny. The coat is just where you left it.",
     );
+});
+$("rain-background").addEventListener("change", () => {
+  if (loading || exporting) return;
+  settings.rainBackground = $("rain-background").value;
+  syncControls(); persist();
+});
+$("rain-lightning").addEventListener("click", () => {
+  if (loading || exporting) return;
+  settings.rainLightning = !settings.rainLightning;
+  syncControls(); persist();
 });
 $("duck-toggle").addEventListener("click", () => {
   if (loading || exporting) return;
@@ -490,7 +533,7 @@ $("settings-file").addEventListener("change", async () => {
   }
 });
 canvas.addEventListener("pointerdown", (event) => {
-  if (loading || exporting || !renderer) return;
+  if (loading || exporting || !renderer || ["rain", "signal"].includes(settings.scene)) return;
   canvas.focus({ preventScroll: true });
   drag = {
     x: event.clientX,
@@ -541,6 +584,7 @@ for (const event of ["pointerup", "pointercancel", "lostpointercapture"])
   });
 canvas.addEventListener("keydown", (event) => {
   if (
+    ["rain", "signal"].includes(settings.scene) ||
     !["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key) ||
     loading ||
     exporting
@@ -737,20 +781,22 @@ function frame(stamp) {
     settings = movePoolCamera(settings, walkingKeys, elapsed);
     dirty = true;
   }
-  if (!dirty && !transport.playing && !exporting && settings.scene !== "pool")
+  if (!dirty && !transport.playing && !exporting && ["bunny", "signal"].includes(settings.scene))
     return;
   const time = exporting
     ? exportTime
-    : !analysis && settings.scene === "pool"
+    : !analysis && settings.scene !== "bunny"
       ? Math.max(0, (stamp - (renderer?.previewStart || 0)) / 1000)
       : transport.time;
   if (renderer) {
-    const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
+    const ratio = Math.min(window.devicePixelRatio || 1, settings.scene === "signal" ? 3 : 1.5);
     renderer.resize(
       Math.round(canvas.clientWidth * ratio),
       Math.round(canvas.clientHeight * ratio),
     );
     renderer.render(analysis, time, settings);
+    if (settings.scene === "rain")
+      $("stage-help").textContent = renderer.settling ? "Gathering the rain…" : "Music gathers in the rain.";
     if (settings.scene === "pool")
       $("stage-help").textContent =
         renderer.pending || renderer.settling

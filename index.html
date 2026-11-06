@@ -10,8 +10,8 @@
     />
     <title>SoundCanvas — The listening studio</title>
     <link rel="icon" href="assets/mark.svg" />
-    <link rel="stylesheet" href="styles.css?v=duck-toggle-1" />
-    <script type="module" src="src/app.js?v=duck-toggle-1"></script>
+    <link rel="stylesheet" href="styles.css?v=signal-aa-1" />
+    <script type="module" src="src/app.js?v=signal-aa-1"></script>
   </head>
   <body>
     <header class="masthead">
@@ -53,7 +53,7 @@
                 ><i class="live-dot" aria-hidden="true"></i
                 ><select id="scene-select" aria-label="Visual scene">
                   <option value="pool">Pool Light</option>
-                  <option value="bunny">Stanford Bunny</option></select
+                  <option value="bunny">Stanford Bunny</option><option value="rain">Rain Window</option><option value="signal">Signal Lines</option></select
                 ><span class="stage-number" id="scene-number">002</span></span
               >
               <button
@@ -94,6 +94,11 @@
               ><span id="loading-label">Listening to your track…</span
               ><small>Everything happens on your device.</small>
             </div>
+          </div>
+          <div class="pool-event-controls" id="rain-controls" hidden>
+            <label for="rain-background">Beyond the glass</label>
+            <select id="rain-background" aria-label="Window scenery"><option value="garden">Rainy garden</option><option value="dusk">Evening street</option><option value="night">Night lights</option></select>
+            <button id="rain-lightning" class="drop-mode" type="button" aria-label="Lightning" aria-pressed="true">Lightning on</button>
           </div>
           <div class="pool-event-controls" id="duck-controls" hidden>
             <button id="duck-toggle" class="drop-mode" type="button" aria-label="Rubber duck" aria-pressed="true">Duck on</button>

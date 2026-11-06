@@ -1,16 +1,16 @@
 import {
   poolBallUniforms,
-} from "./pool-drop.js?v=duck-toggle-1";
-import { createLightGL } from "../vendor/webgl-water/lightgl.js?v=duck-toggle-1";
-import { createWaterClass } from "../vendor/webgl-water/water.js?v=duck-toggle-1";
-import { WATER_SURFACE, waterGrid } from "./water-surface.js?v=duck-toggle-1";
-import { createWaterCaustics } from "./water-caustics.js?v=duck-toggle-1";
-import { createPoolHallRenderer } from "./pool-hall-renderer.js?v=duck-toggle-1";
+} from "./pool-drop.js?v=signal-aa-1";
+import { createLightGL } from "../vendor/webgl-water/lightgl.js?v=signal-aa-1";
+import { createWaterClass } from "../vendor/webgl-water/water.js?v=signal-aa-1";
+import { WATER_SURFACE, waterGrid } from "./water-surface.js?v=signal-aa-1";
+import { createWaterCaustics } from "./water-caustics.js?v=signal-aa-1";
+import { createPoolHallRenderer } from "./pool-hall-renderer.js?v=signal-aa-1";
 import {
   waterSeedDrops,
   waterDrop,
   waterFrame,
-} from "./water-timeline.js?v=duck-toggle-1";
+} from "./water-timeline.js?v=signal-aa-1";
 
 let imagesPromise;
 export function loadWaterImages() {

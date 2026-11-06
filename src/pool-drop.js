@@ -1,5 +1,5 @@
-import { abortable } from "./abort.js?v=duck-toggle-1";
-import { WATER_SURFACE } from "./water-surface.js?v=duck-toggle-1";
+import { abortable } from "./abort.js?v=signal-aa-1";
+import { WATER_SURFACE } from "./water-surface.js?v=signal-aa-1";
 const selected = new WeakMap();
 export const MAX_POOL_BALLS = 3;
 const minimumDropGap = 5;
