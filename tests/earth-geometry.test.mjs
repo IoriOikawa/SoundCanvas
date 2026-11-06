@@ -1,7 +1,11 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { buildColumnMesh, buildSphere } from "../src/earth-geometry.js";
-import { earthCameraDistance } from "../src/earth-renderer.js";
+import {
+  EARTH_AXIAL_TILT,
+  EARTH_ROTATION_SPEED,
+  earthCameraDistance,
+} from "../src/earth-renderer.js";
 
 const samples = new Float32Array([
   1, 0, 0, 0.2, 0.1, 0.3,
@@ -42,4 +46,16 @@ test("Earth keeps equal bounded proportions on wide and portrait stages", () => 
     const largest = Math.max(vertical, horizontal);
     assert.ok(largest >= 0.68 && largest <= 0.72, `${width}×${height}: ${largest}`);
   }
+});
+
+test("Earth completes one automatic revolution in about two minutes", () => {
+  assert.ok(Math.abs(EARTH_ROTATION_SPEED - 0.05) < 1e-9);
+  const revolutionSeconds = (Math.PI * 2) / EARTH_ROTATION_SPEED;
+  assert.ok(revolutionSeconds > 120 && revolutionSeconds < 130);
+});
+
+test("Earth uses a 23.4 degree axial tilt", () => {
+  assert.ok(
+    Math.abs(EARTH_AXIAL_TILT - (23.4 * Math.PI) / 180) < 1e-9,
+  );
 });

@@ -11,6 +11,9 @@ import {
   EARTH_COLUMN_FRAGMENT,
 } from "./earth-shaders.js?v=earth-1";
 
+export const EARTH_ROTATION_SPEED = 0.05;
+export const EARTH_AXIAL_TILT = (23.4 * Math.PI) / 180;
+
 function perspective(aspect) {
   const field = 1 / Math.tan(0.64 / 2);
   const near = 0.1;
@@ -179,7 +182,8 @@ export class EarthRenderer {
     const aspect = width / height;
     const frame = earthFrame(analysis, time, settings);
     const projection = perspective(aspect);
-    const yaw = settings.yaw + time * 0.018 + frame.low * 0.025;
+    const yaw =
+      settings.yaw + time * EARTH_ROTATION_SPEED + frame.low * 0.025;
     const pitch = settings.pitch - 0.16;
     const distance = earthCameraDistance(aspect);
     const eye = [
