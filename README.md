@@ -22,6 +22,10 @@ A sunlit white-tile pool hall with reflections, refraction, underwater caustics 
 
 ## Rain Window
 
+![Rain Window concept artwork — a figure behind rain-covered glass](docs/images/rain-window-concept.png)
+
+*Concept illustration expressing the scene’s atmosphere; the character is not part of the real-time renderer.*
+
 A close view of a dark, four-pane window with refracting droplets, merging drops and lingering wet trails. Switch between a procedural rainy garden, evening street and night lights without resetting the rain. Musical onsets encourage new drops; sustained and high-frequency energy influence rain arrivals. An independent lightning toggle enables sparse accent-driven flashes outside the window.
 
 The scenery is an initial procedural illustration, not photography. The rain uses a bounded, fixed-step droplet simulation and a WebGL refraction pass, with state reconstruction for seeking and film export. It approximates water on glass rather than solving a full fluid model.
