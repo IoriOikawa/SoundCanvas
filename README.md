@@ -28,9 +28,13 @@ The scenery is an initial procedural illustration, not photography. The rain use
 
 ## Signal Lines
 
+![Signal Lines concept artwork — a listener seated among rising white contours](docs/images/signal-lines-concept.png)
+
 Black-and-white stacked contours inspired by Joy Division’s *Unknown Pleasures* cover. Every 0.18 seconds, a completed slice of the decoded audio enters below the older lines, pushing the history upward. At most 64 lines remain visible. The contours use local RMS audio profiles, a central envelope and foreground occlusion; they are not the cover’s original data or a frequency spectrum.
 
 Impact adjusts height, Resonance smooths each contour, and Growth widens the central activity. Pausing freezes the scroll; seeking and film export reconstruct the same audio history. This scene shares the canvas dimensions of the other scenes.
+
+*Concept illustration: the character and touch interaction are not implemented in the studio.*
 
 ### Stable thin-line rendering
 
@@ -38,9 +42,13 @@ WebGL's native one-pixel `LINE_STRIP` changed apparent brightness as the scrolli
 
 ## Dancing Earth
 
+![Dancing Earth concept artwork — a luminous column-built globe held between the listener’s hands](docs/images/dancing-earth-concept.png)
+
 A near-black mineral-teal globe whose continents are filled with rows of slender luminous columns. Low frequencies make the whole globe breathe, mid frequencies move neighboring land regions together, high frequencies warm the tips, and strong onsets send a restrained light wave across the land.
 
 Impact changes column height, Resonance widens the moving groups and their release, and Growth reveals a denser resting field. Drag or use arrow keys to rotate the globe. Seeking and film export reconstruct the same state from audio time and settings. The filled land samples are prepared offline from the public-domain Natural Earth 1:110m land dataset; see the [data notice and regeneration details](assets/EARTH-NOTICE.md). This is an artistic audio mapping, not scientific, elevation or political data.
+
+*Concept illustration: the character, headphones and touch interaction are not implemented in the studio.*
 
 ## Run locally
 

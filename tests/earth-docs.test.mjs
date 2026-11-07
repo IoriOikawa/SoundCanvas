@@ -16,6 +16,8 @@ const files = Object.fromEntries(
 test("all three READMEs document Dancing Earth and its data source", () => {
   for (const name of ["README.md", "README.zh-CN.md", "README.ja.md"]) {
     assert.match(files[name], /## Dancing Earth/);
+    assert.match(files[name], /docs\/images\/dancing-earth-concept\.png/);
+    assert.match(files[name], /docs\/images\/signal-lines-concept\.png/);
     assert.match(files[name], /assets\/EARTH-NOTICE\.md/);
   }
   assert.match(files["README.md"], /five scenes/);
