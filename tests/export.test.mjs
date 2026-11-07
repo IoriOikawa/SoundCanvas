@@ -4,7 +4,7 @@ import { getEventListeners } from "node:events";
 import { recordFilm } from "../src/export.js";
 import { DEFAULT_SETTINGS } from "../src/model.js";
 
-for (const scene of ["pool", "bunny"])
+for (const scene of ["pool", "bunny", "earth"])
   test(`${scene} recorder startup rejection releases cancellation listeners and restores transport`, async () => {
     const globals = [
       "HTMLCanvasElement",

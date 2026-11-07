@@ -1,7 +1,7 @@
-import { abortable } from "./abort.js?v=signal-aa-1";
-import { clipRange } from "./model.js?v=signal-aa-1";
-import { createSceneRenderer } from "./scenes.js?v=signal-aa-1";
-import { withWebmDuration } from "./webm.js?v=signal-aa-1";
+import { abortable } from "./abort.js?v=earth-1";
+import { clipRange } from "./model.js?v=earth-1";
+import { createSceneRenderer } from "./scenes.js?v=earth-1";
+import { withWebmDuration } from "./webm.js?v=earth-1";
 
 export function recordingType() {
   if (

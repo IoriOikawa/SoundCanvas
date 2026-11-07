@@ -82,6 +82,20 @@ test("settings roundtrip preserves controls, camera and seed", () => {
   assert.throws(() => parseSettings('{"version":1,"settings":{"impact":2}}'));
 });
 
+test("Dancing Earth settings roundtrip with the correct export title", () => {
+  const settings = {
+    ...DEFAULT_SETTINGS,
+    scene: "earth",
+    yaw: 1.1,
+    pitch: -0.15,
+  };
+  assert.deepEqual(parseSettings(serializeSettings(settings)), settings);
+  assert.equal(
+    JSON.parse(serializeSettings(settings)).name,
+    "SoundCanvas · Dancing Earth",
+  );
+});
+
 test("export ranges respect the song and reject unusable clips", () => {
   assert.deepEqual(clipRange(9, 15, 12), { start: 9, duration: 3 });
   assert.deepEqual(clipRange(-5, 30, 12), { start: 0, duration: 12 });

@@ -1151,3 +1151,43 @@ noscript {
 .signal-scene .stage-title { color: #d3d3cc; font-size: clamp(20px, 2.3vw, 32px); }
 .signal-scene .stage-help { color: #8a8a85; }
 .signal-scene canvas { cursor: default; }
+
+/* A dark mineral globe with quiet editorial overlays. */
+.earth-scene { background: #030707; }
+.earth-scene .stage-top {
+  color: #d8fff5;
+  text-shadow: 0 1px 8px #071315;
+}
+.earth-scene .stage-number {
+  color: #8fbab3;
+  border-color: #8fbab355;
+}
+.earth-scene .live-dot {
+  background: #f5d99e;
+  box-shadow: 0 0 10px #f5d99e88;
+}
+.earth-scene .stage-title {
+  color: #e5fff8;
+  text-shadow: 0 2px 12px #071315;
+}
+.earth-scene .stage-help {
+  color: #8fbab3;
+  text-shadow: 0 1px 8px #071315;
+}
+.earth-scene .reset-view {
+  color: #d8fff5;
+  border-color: #8fbab366;
+  background: #07131588;
+}
+.earth-scene #earth-material { color: #d8fff5; }
+.earth-scene #earth-material i {
+  background: radial-gradient(
+    circle at 35% 35%,
+    #f5d99e 0 18%,
+    #67cdbd 48%,
+    #071315 100%
+  );
+  border-color: #d8fff5aa;
+  box-shadow: 0 0 9px #67cdbd55;
+}
+#earth-material[hidden] { display: none !important; }
